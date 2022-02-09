@@ -189,6 +189,19 @@ def toggle_fav(id):
     db.session.commit()
     return custom_message(msg, 200)
 
+@app.route('/favorites')
+def favorites():
+    if not session.get('logged_in'):
+        return redirect('/signup')
+    user_id = session.get('userid')
+    fav_books = UserFavorites.query\
+        .filter_by(user_id=user_id)\
+        .join(Book, UserFavorites.book_id==Book.id)\
+        .add_columns(Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics)\
+        .all()
+    print(fav_books[0])
+    return render_template('favorites.html', fav_books=fav_books)
+
 def custom_message(message, status_code): 
     return make_response(jsonify(message), status_code)
 

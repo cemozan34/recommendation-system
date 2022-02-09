@@ -1,0 +1,10 @@
+{% extends 'base.html'%}
+{% block main %}
+  <h1 class="text-center mt-4">Favorite Books</h1>
+  {% with books=fav_books %}
+      {% include "_book-table.html" %}
+  {% endwith %}
+
+  <h1 class="text-center mt-4">Recommended Books</h1>
+
+{% endblock %}

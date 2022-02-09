@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for book in books.items %}
+    {% for book in books %}
     <tr>
       <th scope="row">{{ book.title }}</th>
       <td>{{ book.author }}</td>
@@ -20,12 +20,6 @@
           <svg class="heart" style="width: 25px; height: 25px">
             <use xlink:href="../static/heart.svg#Capa_1"></use>
           </svg>
-          <!-- <img
-            width="25px"
-            height="25px"
-            src="./static/heart.svg"
-            aria-hidden="true"
-          /> -->
         </a>
       </td>
     </tr>

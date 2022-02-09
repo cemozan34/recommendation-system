@@ -7,7 +7,7 @@
       <h1 class="text-center display-3 mt-4 mb-3">Books</h1>
     </div>
 
-    {% with books=books %}
+    {% with books=books.items %}
       {% include "_book-table.html" %}
     {% endwith %}
 
