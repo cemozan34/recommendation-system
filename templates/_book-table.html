@@ -1,0 +1,29 @@
+<table class="mx-auto w-75 table table-striped table-bordered">
+  <thead>
+    <tr style="background-color: #6b7ae0; color: white">
+      <th scope="col">Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">Publisher</th>
+      <th scope="col">Main Topic</th>
+      <th scope="col">Add to Favorites</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books.items %}
+    <tr>
+      <th scope="row">{{ book.title }}</th>
+      <td>{{ book.author }}</td>
+      <td>{{ book.publisher }}</td>
+      <td>{{ book.maintopic }}</td>
+      <td>
+        <img
+          width="25px"
+          height="25px"
+          src="./static/kalpbos.png"
+          alt="favorite book"
+        />
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

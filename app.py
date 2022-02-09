@@ -68,7 +68,7 @@ def index(page):
     page = page
     per_page = 10
     books = Book.query.paginate(page,per_page,error_out=False)
-    return render_template('home.html', title='Home', books=books)
+    return render_template('home.html', title='Book Recommendation System', books=books)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
@@ -90,7 +90,7 @@ def register():
             session['logged_in'] = True
             session['userid'] = data.id
             session['username'] = data.username
-            return render_template('home.html')
+            return render_template('home.html', title='Book Recommendation System')
         else:
             return render_template('signup.html', title='Signup', validation_msg=validation_result)
 
@@ -132,7 +132,7 @@ def change_password():
         else:
             change_psw_msg = 'Incorrect password'
     print(user.password)
-    return render_template('home.html', change_psw_msg=change_psw_msg)
+    return render_template('home.html', change_psw_msg=change_psw_msg, title='Book Recommendation System')
 
 def validate_password():
     return None #Todo
@@ -143,7 +143,7 @@ def login():
         return redirect('/')
     login_msg = None
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html', title='login')
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -160,7 +160,7 @@ def login():
         else:
             login_msg = f'User with email {email} is not found.'
     
-    return render_template('login.html', login_msg=login_msg)
+    return render_template('login.html', login_msg=login_msg, title='login')
 
 @app.route('/logout')
 def logout():
