@@ -16,14 +16,37 @@
       <td>{{ book.publisher }}</td>
       <td>{{ book.maintopic }}</td>
       <td>
-        <img
-          width="25px"
-          height="25px"
-          src="./static/kalpbos.png"
-          alt="favorite book"
-        />
+        <a class="toggle-fav-btn" href="" data-href="/fav/{{ book.id }}" role="button" aria-label="Toggle favorite">
+          <svg class="heart" style="width: 25px; height: 25px">
+            <use xlink:href="../static/heart.svg#Capa_1"></use>
+          </svg>
+          <!-- <img
+            width="25px"
+            height="25px"
+            src="./static/heart.svg"
+            aria-hidden="true"
+          /> -->
+        </a>
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+<script>
+  Array.prototype.slice.call(document.querySelectorAll('.toggle-fav-btn')).forEach((btn) => {
+    btn.addEventListener('click', async(e) => {
+      e.preventDefault();
+      console.log(btn.dataset.href);
+      try {
+        const response = await fetch(btn.dataset.href);
+        const json = await response.json();
+        btn.firstElementChild.classList.toggle('isFilled');
+        console.log(json);
+      } catch (error) {
+        console.log("Couldn't toggle the fav")
+        console.log(error);
+      }
+    })
+  })
+</script>

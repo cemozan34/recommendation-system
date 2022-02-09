@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, make_response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import re
 from flask_session import Session
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_TYPE'] = "filesystem"
 Session(app)
+CORS(app)
 # session.app.session_interface.db.create_all()
 
 db = SQLAlchemy(app)
@@ -168,6 +170,27 @@ def logout():
     session['userid'] = None
     session['username'] = None
     return redirect('/')
+
+@app.route('/fav/<int:id>', methods=['GET'])
+def toggle_fav(id):
+    if not session.get('logged_in'):
+        return custom_message('Authentication failed', 404)
+    user_id = session['userid']
+    book_id = id
+    faved_book = UserFavorites.query.filter_by(user_id=user_id, book_id=book_id).first()
+    if faved_book:
+        UserFavorites.query.filter_by(user_id=user_id, book_id=book_id).delete()
+        msg = 'Book deleted from favorites'
+    else:
+        msg = 'Book added to favorites'
+        user_fav = UserFavorites(user_id, book_id)
+        db.session.add(user_fav)
+    print(msg)
+    db.session.commit()
+    return custom_message(msg, 200)
+
+def custom_message(message, status_code): 
+    return make_response(jsonify(message), status_code)
 
 if __name__ == '__main__':
     app.run()

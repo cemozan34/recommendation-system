@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 mysqlclient = "*"
 gunicorn = "*"
 flask-session = "*"
+flask-cors = "*"
 
 [dev-packages]
 
