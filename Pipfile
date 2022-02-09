@@ -8,6 +8,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 mysqlclient = "*"
 gunicorn = "*"
+flask-session = "*"
 
 [dev-packages]
 

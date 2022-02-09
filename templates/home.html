@@ -1,0 +1,63 @@
+{% extends 'base.html'%} {% block main %}
+  {% if session.logged_in %}
+    {% include '_get-recommendations.html' %}
+
+    <div class="container">
+      <hr />
+      <h1 class="text-center display-3 mt-4 mb-3">Books</h1>
+    </div>
+
+    <table class="mx-auto w-75 table table-striped table-bordered">
+      <thead>
+        <tr style="background-color: #6b7ae0; color: white">
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+          <th scope="col">Publisher</th>
+          <th scope="col">Main Topic</th>
+          <th scope="col">Add to Favorites</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in books.items %}
+        <tr>
+          <th scope="row">{{ book.title }}</th>
+          <td>{{ book.author }}</td>
+          <td>{{ book.publisher }}</td>
+          <td>{{ book.maintopic }}</td>
+          <td>
+            <img
+              width="25px"
+              height="25px"
+              src="./static/kalpbos.png"
+              alt="favorite book"
+            />
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="text-center mx-auto">
+      <div class="btn-group" style="width: 200px;">
+        {% if books.has_prev %}
+          <a
+            class="page-link btn btn-secondary btn-sm active"
+            role="button"
+            href="{{ url_for('index', page=books.prev_num) }}">
+              Prev Page
+          </a>
+        {% endif %}
+        {% if books.has_next %}
+          <a
+            class="page-link btn btn-primary btn-sm active"
+            role="button"
+            href="{{ url_for('index', page=books.next_num) }}">
+              Next Page
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% include '_change-password.html' %}
+  {% endif %}
+{% endblock %}

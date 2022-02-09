@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+
+{% block main %}
+<form action="/login" method="post" class="mt-5 form w-50 border border-secondary p-4 mx-auto">
+  <h3 class="text-center">LOGIN</h3>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" class="form-control" />
+  </div>
+  <div class="email error"></div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" class="form-control" />
+    <small id="passwordHelpBlock" class="form-text text-muted">
+      <a href="#">TODO Forgot password</a>
+    </small>
+  </div>
+  <div class="password error"></div>
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+{% endblock %}

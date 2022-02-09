@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "797bcfffe796866b77fddf0aced6b115e6c1a53e808a0165a2c1160242310868"
+            "sha256": "85b2ef9448474340c8955a8dce7335831992e0b1f7bede88889ce84e51f634e3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,14 @@
         ]
     },
     "default": {
+        "cachelib": {
+            "hashes": [
+                "sha256:0baa926a23924c04ae1354091478b15b3b24e6cf5931dd159452afda5f65babd",
+                "sha256:6da323fdb16c9f53424a229132646a469b2d046e687fa353b92303910c99bc18"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==0.6.0"
+        },
         "click": {
             "hashes": [
                 "sha256:353f466495adaeb40b6b5f592f9f91cb22372351c84caeb068132442a4518ef3",
@@ -39,6 +47,14 @@
             ],
             "index": "pypi",
             "version": "==2.0.2"
+        },
+        "flask-session": {
+            "hashes": [
+                "sha256:1e3f8a317005db72c831f85d884a5a9d23145f256c730d80b325a3150a22c3db",
+                "sha256:c9ed54321fa8c4ca0132ffd3369582759eda7252fb4b3bee480e690d1ba41f46"
+            ],
+            "index": "pypi",
+            "version": "==0.4.0"
         },
         "flask-sqlalchemy": {
             "hashes": [
