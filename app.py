@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, make_response, jsonify
+from flask import Flask, render_template, request, redirect, session, make_response, jsonify, url_for
 from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 import re
@@ -149,28 +149,27 @@ def validate_user_data(name, surname, username, email, password):
 
 @app.route('/change-password', methods=['POST'])
 def change_password():
-    change_psw_msg = None
     if request.method == 'POST':
         if 'logged_in' not in session:
             return redirect('/signup')
-        old_pswd = request.form['old-pswd']
-        new_pswd = request.form['new-pswd']
-        new_pswd_confirm = request.form['cnfrm-pswd']
+        content = request.json
+        old_pswd = content['old-pswd']
+        new_pswd = content['new-pswd']
+        new_pswd_confirm = content['cnfrm-pswd']
         user = User.query.get(int(session['userid']))
         if user and user.password == old_pswd:
             if new_pswd != new_pswd_confirm:
-                change_psw_msg = 'Confirmed password does not match'
+                return custom_message('Confirmed password does not match', 400)
             else:
                 user.password = new_pswd
                 print('old pswd:', old_pswd)
                 print('new pswd:', new_pswd)
                 print('must be new:', user.password)
+                print('User password:', user.password)
                 db.session.commit()
-                change_psw_msg = 'Your password has been changed!'
+                return custom_message('Your password has been changed!', 200)
         else:
-            change_psw_msg = 'Incorrect password'
-    print(user.password)
-    return render_template('home.html', change_psw_msg=change_psw_msg, title='Book Recommendation System')
+            return custom_message('Incorrect password', 400)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

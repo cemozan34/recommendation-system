@@ -18,7 +18,7 @@
         <ul class="navbar-nav mr-auto mb-lg-0">
             <li class="nav-item" id="change-password" style="cursor: pointer;">
               <span>
-                <a style="color: #333;" href="#change-password-modal">Change Password</a>
+                <a style="color: #333;">Change Password</a>
               </span>
             </li>
         </ul>
@@ -45,3 +45,10 @@
     </div>
   </div>
 </nav>
+
+<script>
+  var path = window.location.pathname;
+  if (path !== '/') {
+    document.getElementById('change-password').style.display = 'none';
+  }
+</script>
