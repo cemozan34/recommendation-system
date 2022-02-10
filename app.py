@@ -74,7 +74,7 @@ def index(page):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
-    if session['logged_in'] == True:
+    if 'logged_in' not in session:
         return redirect('/')
     if request.method == 'GET':
         return render_template('signup.html', title='Signup')
@@ -115,7 +115,7 @@ def validate_user_data(name, surname, username, email, password):
 def change_password():
     change_psw_msg = None
     if request.method == 'POST':
-        if not session['logged_in']:
+        if 'logged_in' not in session:
             return redirect('/signup')
         old_pswd = request.form['old-pswd']
         new_pswd = request.form['new-pswd']
@@ -141,7 +141,7 @@ def validate_password():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if session['logged_in'] == True:
+    if 'logged_in' in session and session['logged_in' == True]:
         return redirect('/')
     login_msg = None
     if request.method == 'GET':
@@ -173,7 +173,7 @@ def logout():
 
 @app.route('/fav/<int:id>', methods=['GET'])
 def toggle_fav(id):
-    if not session.get('logged_in'):
+    if 'logged_in' not in session:
         return custom_message('Authentication failed', 404)
     user_id = session['userid']
     book_id = id
@@ -191,7 +191,7 @@ def toggle_fav(id):
 
 @app.route('/favorites')
 def favorites():
-    if not session.get('logged_in'):
+    if 'logged_in' not in session:
         return redirect('/signup')
     user_id = session.get('userid')
     fav_books = UserFavorites.query\
