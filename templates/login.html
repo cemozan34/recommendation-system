@@ -3,6 +3,13 @@
 {% block main %}
 <form action="/login" method="post" class="mt-5 form w-50 border border-secondary p-4 mx-auto">
   <h3 class="text-center">LOGIN</h3>
+
+  <div class="messages text-center" style="width: 100%; height: 24px;">
+    {% if login_msg %}
+      <span style="color: red;">{{ login_msg }}</span>
+    {% endif %}
+  </div>
+  
   <div class="form-group">
     <label for="email">Email</label>
     <input type="text" id="email" name="email" class="form-control" />
@@ -12,7 +19,7 @@
     <label for="password">Password</label>
     <input id="password" type="password" name="password" class="form-control" />
     <small id="passwordHelpBlock" class="form-text text-muted">
-      <a href="#">TODO Forgot password</a>
+      <a href="/forgotpassword">Forgot password</a>
     </small>
   </div>
   <div class="password error"></div>

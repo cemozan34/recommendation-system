@@ -1,10 +1,22 @@
 from flask import Flask, render_template, request, redirect, session, make_response, jsonify
+from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 import re
 from flask_session import Session
 from flask_cors import CORS
+from threading import Thread
+import jwt
+from time import time
+from os import environ
 
 app = Flask(__name__)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = "johnistheking922@gmail.com"
+app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD")
+mail = Mail(app)
 
 ENV = 'dev'
 if ENV == 'dev':
@@ -30,6 +42,19 @@ class User(db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+
+    def get_reset_token(self, expires_in=600):
+        return jwt.encode({'reset_password': self.id,
+                        'exp': time() + expires_in},
+                        key='secret', algorithm='HS256')
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, 'secret', algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
     def __init__(self, name, surname, username, email, password):
         self.name = name
@@ -92,9 +117,19 @@ def register():
             session['logged_in'] = True
             session['userid'] = data.id
             session['username'] = data.username
-            return render_template('home.html', title='Book Recommendation System')
+            return redirect('/')
         else:
             return render_template('signup.html', title='Signup', validation_msg=validation_result)
+
+def validate_password(pswd, pswd_cnfrm=None):
+    if (len(pswd) < 5):
+        return 'Password must be at least 5 characters'
+    elif (len(pswd) > 20):
+        return 'Passwrod must be max of 20 characters'
+    elif (pswd_cnfrm != None and pswd != pswd_cnfrm):
+        return 'Passwords do not match'
+    else:
+        return True
 
 def validate_user_data(name, surname, username, email, password):
     if (len(name) == 0 or len(name) > 20):
@@ -107,8 +142,9 @@ def validate_user_data(name, surname, username, email, password):
         return 'This username is already registerd'
     if db.session.query(User).filter(User.email == email).count() > 0:
         return 'This email is already registered'
-    if (len(password) < 5 or len(password) > 20):
-        return 'Password must be at least 5 max of 20 characters.'
+    pswd_validation = validate_password(password)
+    if (pswd_validation != True):
+        return pswd_validation
     return ''
 
 @app.route('/change-password', methods=['POST'])
@@ -136,12 +172,9 @@ def change_password():
     print(user.password)
     return render_template('home.html', change_psw_msg=change_psw_msg, title='Book Recommendation System')
 
-def validate_password():
-    return None #Todo
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'logged_in' in session and session['logged_in' == True]:
+    if 'logged_in' in session and session['logged_in'] == True:
         return redirect('/')
     login_msg = None
     if request.method == 'GET':
@@ -151,16 +184,13 @@ def login():
         password = request.form['password']
 
         user = User.query.filter_by(email=email).first()
-        if user:
-            if user.password == password:
-                session['logged_in'] = True
-                session['userid'] = user.id
-                session['username'] = user.username
-                return redirect('/')
-            else:
-                login_msg = 'Incorrect password'
+        if user and user.password == password:
+            session['logged_in'] = True
+            session['userid'] = user.id
+            session['username'] = user.username
+            return redirect('/')
         else:
-            login_msg = f'User with email {email} is not found.'
+            login_msg = 'Incorrect email or password'
     
     return render_template('login.html', login_msg=login_msg, title='login')
 
@@ -199,8 +229,64 @@ def favorites():
         .join(Book, UserFavorites.book_id==Book.id)\
         .add_columns(Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics)\
         .all()
-    print(fav_books[0])
-    return render_template('favorites.html', fav_books=fav_books)
+    return render_template('favorites.html', title='Favorites', fav_books=fav_books)
+
+def send_email(subject, recipent, body, html):
+    with app.app_context():
+        msg = Message()
+        msg.subject = subject
+        msg.recipients = [recipent]
+        msg.sender = 'johnistheking922@gmail.com'
+        msg.body = body
+        msg.html = html
+        mail.send(msg)
+
+# GET: Forgot password page for submitting the request
+# POST: Sends the password reset instructions mail
+@app.route('/forgotpassword', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'GET':
+        return render_template('forgot_password.html', title='Forgot Password')
+    if request.method == 'POST':
+        email = request.form['email']
+        user = User.query.filter_by(email=email).first()
+        if user:
+            try:
+                token = user.get_reset_token()
+                print(token)
+                Thread(target=send_email, args=(
+                    'Password Reset Instructions',
+                    email,
+                    render_template('email/reset_password.txt',
+                        user=user,
+                        token=token),
+                    render_template('email/reset_password.html',
+                        user=user,
+                        token=token))).start()
+            except Exception as e:
+                print(e)
+                return custom_message('An error occured while sending the email', 404)
+        return render_template('email_sent.html', title='Email sent!')
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if 'logged_in' in session:
+        return redirect('/')
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return custom_message('Invalid token. Please get a new reset token', 403)
+    print(request.method)
+    if request.method == 'GET':
+        return render_template('reset_password.html',token=token,title='Reset Password')
+    else:
+        content = request.json
+        pswd = content['pswd']
+        pswd_cnfrm = content['pswd-cnfrm']
+        validated = validate_password(pswd, pswd_cnfrm)
+        if validated == True:
+            return custom_message('You password has been changed', 200)
+        else:
+            return custom_message(validated, 400)
 
 def custom_message(message, status_code): 
     return make_response(jsonify(message), status_code)

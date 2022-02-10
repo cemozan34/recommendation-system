@@ -10,6 +10,8 @@ mysqlclient = "*"
 gunicorn = "*"
 flask-session = "*"
 flask-cors = "*"
+flask-mail = "*"
+pyjwt = "*"
 
 [dev-packages]
 

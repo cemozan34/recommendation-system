@@ -1,7 +1,7 @@
-{% extends 'base.html'%} {% block main %}
+{% extends 'base.html'%}
+{% block main %}
   {% if session.logged_in %}
     {% include '_get-recommendations.html' %}
-
     <div class="container">
       <hr />
       <h1 class="text-center display-3 mt-4 mb-3">Books</h1>
@@ -33,5 +33,10 @@
     </div>
 
     {% include '_change-password.html' %}
+
+  {% else %}
+    <div class="text-center">
+      <h1>HOME PAGE - UPDATE LATER</h1>
+    </div>
   {% endif %}
 {% endblock %}
