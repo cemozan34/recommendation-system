@@ -8,6 +8,16 @@ from threading import Thread
 import jwt
 from time import time
 from os import environ
+from numpy import load
+
+load_data = True
+cos_sim = None
+if load_data:
+    print('Loading data...')
+    filename = 'transform_result_reduced.npz'
+    loaded = load(filename)
+    cos_sim = loaded['arr_0']
+    print('Data is loaded!')
 
 app = Flask(__name__)
 
@@ -99,7 +109,7 @@ def index(page):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
-    if 'logged_in' not in session:
+    if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
         return redirect('/')
     if request.method == 'GET':
         return render_template('signup.html', title='Signup')
@@ -150,7 +160,7 @@ def validate_user_data(name, surname, username, email, password):
 @app.route('/change-password', methods=['POST'])
 def change_password():
     if request.method == 'POST':
-        if 'logged_in' not in session:
+        if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
             return redirect('/signup')
         content = request.json
         old_pswd = content['old-pswd']
@@ -202,7 +212,7 @@ def logout():
 
 @app.route('/fav/<int:id>', methods=['GET'])
 def toggle_fav(id):
-    if 'logged_in' not in session:
+    if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
         return custom_message('Authentication failed', 404)
     user_id = session['userid']
     book_id = id
@@ -220,15 +230,22 @@ def toggle_fav(id):
 
 @app.route('/favorites')
 def favorites():
-    if 'logged_in' not in session:
+    if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
         return redirect('/signup')
     user_id = session.get('userid')
     fav_books = UserFavorites.query\
         .filter_by(user_id=user_id)\
         .join(Book, UserFavorites.book_id==Book.id)\
-        .add_columns(Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics)\
+        .add_columns(Book.id, Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics)\
         .all()
-    return render_template('favorites.html', title='Favorites', fav_books=fav_books)
+    recommended_books = []
+    for fav_book in fav_books:
+        rec_books = recommend_books(id=fav_book.id, num_of_recs=3)
+        filtered_rec_books = list(filter(lambda rec_book: rec_book.title not in list(map(lambda x: x.title, fav_books)), rec_books))
+        if len(filtered_rec_books) > 0:
+            recommended_books.append(filtered_rec_books[0])
+        
+    return render_template('favorites.html', title='Favorites', fav_books=fav_books, recommended_books=recommended_books)
 
 def send_email(subject, recipent, body, html):
     with app.app_context():
@@ -269,7 +286,9 @@ def forgot_password():
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-    if 'logged_in' in session:
+    if 'logged_in' in session and session['logged_in'] == True:
+        print('User is already logged in')
+        print(session['logged_in'])
         return redirect('/')
     user = User.verify_reset_password_token(token)
     if not user:
@@ -286,6 +305,23 @@ def reset_password(token):
             return custom_message('You password has been changed', 200)
         else:
             return custom_message(validated, 400)
+
+def recommend_books(title='', id=None, num_of_recs=1):
+    if (id != None):
+        book_id = id
+    else:
+        book = Book.query.filter_by(title=title).first()
+        book_id = book.id
+    id_inbounds = book_id < 8000 #todo increase later
+    if book_id and num_of_recs > 0 and id_inbounds:
+        cos_sim_index = book_id - 1 # cos_sim index starts from 0 while db from 1
+        sim_scores = list(enumerate(cos_sim[cos_sim_index]))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sim_scores[1:num_of_recs+1]
+        book_ids = [i[0]+1 for i in sim_scores] # reincrement for ids
+        books = Book.query.filter(Book.id.in_(book_ids)).all()
+        return books
+    return []
 
 def custom_message(message, status_code): 
     return make_response(jsonify(message), status_code)
