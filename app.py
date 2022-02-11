@@ -31,7 +31,6 @@ mail = Mail(app)
 BOOK_RECOM_ENV = environ.get("BOOK_RECOM_ENV")
 if BOOK_RECOM_ENV == 'prod':
     app.config = environ.get("JAWSDB_URL")
-    app.debug = False
 else:
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/recomm_system'
