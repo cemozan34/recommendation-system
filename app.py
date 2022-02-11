@@ -316,7 +316,7 @@ def recommend_books(title='', id=None, num_of_recs=1):
     else:
         book = Book.query.filter_by(title=title).first()
         book_id = book.id
-    id_inbounds = book_id < 8000 #todo increase later
+    id_inbounds = book_id < 4000 #todo increase later
     if book_id and num_of_recs > 0 and id_inbounds:
         cos_sim_index = book_id - 1 # cos_sim index starts from 0 while db from 1
         sim_scores = list(enumerate(cos_sim[cos_sim_index]))
