@@ -6,5 +6,10 @@
   {% endwith %}
 
   <h1 class="text-center mt-4">Recommended Books</h1>
+  {% if recommended_books %}
+    {% with books=recommended_books %}
+      {% include "_book-table.html" %}
+    {% endwith %}
+  {% endif %}
 
 {% endblock %}
