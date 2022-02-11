@@ -10,7 +10,7 @@ from time import time
 from os import environ
 from numpy import load
 
-load_data = True
+load_data = environ.get("LOAD_DATA")
 cos_sim = None
 if load_data:
     print('Loading data...')
