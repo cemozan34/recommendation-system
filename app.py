@@ -112,7 +112,7 @@ def index(page):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
-    if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
+    if 'logged_in' in session and session['logged_in'] == True:
         return redirect('/')
     if request.method == 'GET':
         return render_template('signup.html', title='Signup')
