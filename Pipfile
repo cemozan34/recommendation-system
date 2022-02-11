@@ -12,6 +12,7 @@ flask-session = "*"
 flask-cors = "*"
 flask-mail = "*"
 pyjwt = "*"
+numpy = "*"
 
 [dev-packages]
 
