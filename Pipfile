@@ -13,6 +13,7 @@ flask-cors = "*"
 flask-mail = "*"
 pyjwt = "*"
 numpy = "*"
+pymysql = "*"
 
 [dev-packages]
 

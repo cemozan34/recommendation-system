@@ -28,21 +28,25 @@ app.config['MAIL_USERNAME'] = "johnistheking922@gmail.com"
 app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD")
 mail = Mail(app)
 
-ENV = 'dev'
-if ENV == 'dev':
+BOOK_RECOM_ENV = environ.get("BOOK_RECOM_ENV")
+if BOOK_RECOM_ENV == 'prod':
+    app.config = environ.get("JAWSDB_URL")
+    app.debug = False
+else:
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/recomm_system'
-else:
-    app.debug = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_TYPE'] = "filesystem"
 Session(app)
 CORS(app)
-# session.app.session_interface.db.create_all()
 
 db = SQLAlchemy(app)
+
+@app.before_first_request
+def setup():
+    db.create_all()
 
 class User(db.Model):
     __tablename__ = 'users'
