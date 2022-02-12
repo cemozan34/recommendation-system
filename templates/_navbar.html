@@ -16,29 +16,24 @@
     <div class="collapse navbar-collapse" id="navbarText">
       {% if session.logged_in %}
         <ul class="navbar-nav mr-auto mb-lg-0">
-            <li class="nav-item" id="change-password" style="cursor: pointer;">
-              <span>
-                <a style="color: #333;">Change Password</a>
+            <li class="nav-item" id="change-password">
+              <span type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                Change Password
               </span>
             </li>
         </ul>
 
         <span class="navbar-brand" style="color: rgb(199, 57, 187);">Welcome {{ session.username }}</span>
 
-        <span class="navbar-text">
-          <a class="text-primary" href="/favorites">Favorites</a>
-        </span>
-        <span class="navbar-text ml-4">
-          <a class="" href="/logout">Logout</a>
-        </span>
+        <a href="/favorites" type="button" class="btn btn-outline-success">Favorites</a>
+        <a class="btn btn-secondary btn-sm text-light ml-3" type="button" href="/logout">Logout</a>
       {% else %}
-        <ul class="navbar-nav mr-auto mb-lg-0">
-          <li class="nav-item" style="cursor: pointer;">
-            <!-- <a class="nav-link" href="/users/{{userid}}/changepassword">Change Password</a> -->
-            <a class="" href="/signup">Sign Up</a>
+        <ul class="navbar-nav mr-auto mb-lg-0 text-dark">
+          <li class="nav-item">
+            <a type="button" class="btn btn-outline-danger" href="/signup">Sign Up</a>
           </li>
-          <li class="nav-item ml-0 ml-lg-3" style="cursor: pointer;">
-            <a class="" href="/login">Login</a>
+          <li class="nav-item ml-0 ml-lg-3">
+            <a type="button" class="btn btn-outline-primary" href="/login">Login</a>
           </li>
         </ul>
       {% endif %}
