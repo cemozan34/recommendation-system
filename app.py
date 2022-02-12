@@ -30,12 +30,13 @@ mail = Mail(app)
 
 BOOK_RECOM_ENV = environ.get("BOOK_RECOM_ENV")
 if BOOK_RECOM_ENV == 'prod':
+    # app.debug = False
     app.config = environ.get("JAWSDB_URL")
 else:
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/recomm_system'
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_TYPE'] = "filesystem"
 Session(app)
