@@ -17,7 +17,7 @@
       {% if session.logged_in %}
         <ul class="navbar-nav mr-auto mb-lg-0">
             <li class="nav-item" id="change-password">
-              <span type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#exampleModal">
+              <span type="button" class="text-secondary" data-toggle="modal" data-target="#exampleModal">
                 Change Password
               </span>
             </li>
@@ -25,13 +25,10 @@
 
         <span class="navbar-brand" style="color: rgb(199, 57, 187);">Welcome {{ session.username }}</span>
 
-        <a href="/favorites" type="button" class="btn btn-outline-success">Favorites</a>
-        <a class="btn btn-secondary btn-sm text-light ml-3" type="button" href="/logout">Logout</a>
+        <a href="/favorites" type="button" class="btn btn-success btn-sm px-3">Favorites</a>
+        <a class="btn btn-outline-secondary btn-sm text-dark ml-3" type="button" href="/logout">Logout</a>
       {% else %}
         <ul class="navbar-nav ml-auto mr-3 mt-2">
-          <!-- <li class="nav-item">
-            <a type="button" class="btn btn-outline-danger" href="/signup">Sign Up</a>
-          </li> -->
           <li class="nav-item">
             <a type="button" class="btn btn-outline-primary" href="/login">Login</a>
           </li>
