@@ -191,7 +191,7 @@ def login():
         return redirect('/')
     login_msg = None
     if request.method == 'GET':
-        return render_template('login.html', title='login')
+        return render_template('login.html', title='Login')
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -205,7 +205,7 @@ def login():
         else:
             login_msg = 'Incorrect email or password'
     
-    return render_template('login.html', login_msg=login_msg, title='login')
+    return render_template('login.html', login_msg=login_msg, title='Login')
 
 @app.route('/logout')
 def logout():
