@@ -11,26 +11,35 @@
       {% include "_book-table.html" %}
     {% endwith %}
 
-    <div class="text-center mx-auto">
-      <div class="btn-group" style="width: 200px;">
-        {% if books.has_prev %}
-          <a
-            class="page-link btn btn-secondary btn-sm active"
-            role="button"
-            href="{{ url_for('index', page=books.prev_num) }}">
-              Prev Page
+<div class="text-center mb-0 mb-sm-4 mt-4">
+  <a href="/{{ books.prev_num }}"
+    class="btn btn-outline-dark 
+    {% if books.page == 1 %}disabled{% endif %}">
+      &laquo;
+  </a>
+  {% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if books.page == page_num %}
+          <a href="/{{ page_num }}"
+            class="btn btn-dark">
+              {{ page_num }}
           </a>
-        {% endif %}
-        {% if books.has_next %}
-          <a
-            class="page-link btn btn-primary btn-sm active"
-            role="button"
-            href="{{ url_for('index', page=books.next_num) }}">
-              Next Page
+      {% else %}
+          <a href="/{{ page_num }}"
+            class="btn btn-outline-dark">
+              {{ page_num }}
           </a>
-        {% endif %}
-      </div>
-    </div>
+      {% endif %}
+    {% else %}
+          ...
+    {% endif %}
+  {% endfor %}
+  <a href="/{{ books.next_num }}"
+    class="btn btn-outline-dark 
+    {% if books.page == books.pages %}disabled{% endif %}">
+      &raquo;
+  </a>
+</div>
 
     {% include '_change-password.html' %}
 
