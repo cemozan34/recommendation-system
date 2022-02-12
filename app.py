@@ -38,7 +38,7 @@ else:
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SESSION_PERMANENT'] = False
-app.config['SESSION_TYPE'] = "filesystem"
+# app.config['SESSION_TYPE'] = "filesystem"
 Session(app)
 CORS(app)
 
