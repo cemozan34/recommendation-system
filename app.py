@@ -310,6 +310,10 @@ def reset_password(token):
         else:
             return custom_message(validated, 400)
 
+@app.route('/password_changed', methods=['GET'])
+def password_changed():
+    return render_template('password_changed.html')
+
 def recommend_books(title='', id=None, num_of_recs=1):
     if (id != None):
         book_id = id

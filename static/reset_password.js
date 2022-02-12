@@ -18,20 +18,22 @@ resetPswdForm.addEventListener('submit', async(e) => {
   const result = await response.json();
   console.log(response);
   console.log(result);
-  msg.textContent = result;
   switch (response.status) {
     case 400:
+      msg.textContent = result;
       msg.style.color = 'red';
       break;
     case 403:
+      msg.textContent = result;
       msg.style.color = 'red';
       resetPswdForm.style.display = 'none';
       document.querySelector('.forgot-pswd-ref').style.display = 'block';
       break;
     case 200:
-      msg.style.color = 'darkgreen';
-      resetPswdForm.style.display = 'none';
-      document.querySelector('.login-ref').style.display = 'block';
+      window.location.replace(window.location.origin + '/password_changed')
+      // msg.style.color = 'darkgreen';
+      // resetPswdForm.style.display = 'none';
+      // document.querySelector('.login-ref').style.display = 'block';
       break
     default:
       throw new Exception('Unexpected error');

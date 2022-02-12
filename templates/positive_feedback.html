@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+
+{% block main %}
+<div class="full-page">
+  <div class="text-center mt-5">
+    <div class="card w-50 mx-auto py-4" style="box-shadow: 0 4px 4px -1px rgba(0,0,0,0.1);">
+      <p class="text-center mb-0">
+        <img width="128" src="../static/check-icon.png" alt="Success" aria-hidden="true" class="mt-1">
+      </p>
+      <div class="card-block">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
