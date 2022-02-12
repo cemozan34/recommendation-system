@@ -31,11 +31,7 @@ mail = Mail(app)
 BOOK_RECOM_ENV = environ.get("BOOK_RECOM_ENV")
 if BOOK_RECOM_ENV == 'prod':
     app.debug = False
-<<<<<<< Updated upstream
     app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("JAWSDB_URL")
-=======
-    app.config = environ.get("JAWSDB_URL")
->>>>>>> Stashed changes
 else:
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/recomm_system'
