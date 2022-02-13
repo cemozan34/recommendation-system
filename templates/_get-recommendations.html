@@ -1,6 +1,8 @@
 <div class="container text-center mt-4 mb-1">
-  <div class="form-group">
-    <input type="text" class="form-control col-sm-4 mx-auto" placeholder="Enter book name (UNIMPLEMENTED)">
-    <button type="button" class="btn btn-dark mt-2" disabled="true">Get Recommendations</button>
-  </div>
+  <form id="get-recom-form" action="/recommendations_for" method="post">
+    <div class="form-group">
+      <input required name="title" type="text" class="form-control col-sm-4 mx-auto" placeholder="Enter book name">
+      <button type="submit" class="btn btn-dark mt-2">Get Recommendations</button>
+    </div>
+  </form>
 </div>

@@ -332,13 +332,23 @@ def reset_password(token):
 def password_changed():
     return render_template('password_changed.html')
 
+@app.route('/recommendations_for', methods=['POST'])
+def get_recommendations_for():
+    title = request.form['title']
+    book = Book.query.filter_by(title=title).first()
+    if book:
+        recommended_books = recommend_books(title=title, num_of_recs=10)
+        return render_template('book_recommendations.html', recommended_books=recommended_books, book_title=title)
+    else:
+        return render_template('book_recommendations.html', book_title=title)
+
 def recommend_books(title='', id=None, num_of_recs=1):
     if (id != None):
         book_id = id
     else:
         book = Book.query.filter_by(title=title).first()
         book_id = book.id
-    id_inbounds = book_id < 4000 #todo increase later
+    id_inbounds = book_id < 1500 #todo: either make 40k or remove
     if book_id and num_of_recs > 0 and id_inbounds:
         cos_sim_index = book_id - 1 # cos_sim index starts from 0 while db from 1
         sim_scores = list(enumerate(cos_sim[cos_sim_index]))
