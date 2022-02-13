@@ -103,13 +103,28 @@ class UserFavorites(db.Model):
         self.user_id = user_id
         self.book_id = book_id
 
+def querry_starred_books(userid):
+    query_starred_books = db.session.query(UserFavorites.book_id).filter(UserFavorites.user_id == userid).all()
+    return list(map(lambda x: x[0], query_starred_books))
+
 @app.route('/', methods=['GET'], defaults={"page": 1})
 @app.route('/<int:page>', methods=['GET'])
 def index(page):
+    if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
+            return render_template('home.html', title='Book Recommendation System', books=[])
     page = page
     per_page = 10
-    books = Book.query.paginate(page,per_page,error_out=False)
-    return render_template('home.html', title='Book Recommendation System', books=books)
+    # books = Book.query.paginate(page,per_page,error_out=False)
+
+    starred_books_query = querry_starred_books(session['userid'])
+    xpr = db.case(
+                [(Book.id.in_(starred_books_query), "True"),],
+                else_ = "False"
+            ).label("is_starred")
+    qry = db.session\
+        .query(Book.id, Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics, xpr)\
+        .paginate(page,per_page,error_out=False)
+    return render_template('home.html', title='Book Recommendation System', books=qry)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
@@ -240,7 +255,10 @@ def favorites():
     fav_books = UserFavorites.query\
         .filter_by(user_id=user_id)\
         .join(Book, UserFavorites.book_id==Book.id)\
-        .add_columns(Book.id, Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics)\
+        .add_columns(Book.id, Book.title, Book.author, Book.publisher, Book.maintopic, Book.subtopics, db.case(
+            [(True, "True"),],
+            else_="False"
+        ).label("is_starred"))\
         .all()
     recommended_books = []
     for fav_book in fav_books:
