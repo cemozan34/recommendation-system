@@ -350,11 +350,11 @@ def recommend_books(title='', id=None, num_of_recs=1):
         book_id = book.id
     id_inbounds = book_id < 1500 #todo: either make 40k or remove
     if book_id and num_of_recs > 0 and id_inbounds:
-        cos_sim_index = book_id - 1 # cos_sim index starts from 0 while db from 1
+        cos_sim_index = book_id
         sim_scores = list(enumerate(cos_sim[cos_sim_index]))
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
         sim_scores = sim_scores[1:num_of_recs+1]
-        book_ids = [i[0]+1 for i in sim_scores] # reincrement for ids
+        book_ids = [i[0] for i in sim_scores]
         books = Book.query.filter(Book.id.in_(book_ids)).all()
         return books
     return []
