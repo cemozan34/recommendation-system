@@ -260,10 +260,15 @@ def favorites():
             else_="False"
         ).label("is_starred"))\
         .all()
+
     recommended_books = []
     for fav_book in fav_books:
-        rec_books = recommend_books(id=fav_book.id, num_of_recs=3)
-        filtered_rec_books = list(filter(lambda rec_book: rec_book.title not in list(map(lambda x: x.title, fav_books)), rec_books))
+        rec_books = recommend_books(id=fav_book.id, num_of_recs=10)
+        # remove the books that are already in the favorites or already recommended
+        filtered_rec_books = list(filter(
+            lambda rec_book: rec_book.title not in \
+                list(map(lambda x: x.title, fav_books)) + list(map(lambda x: x.title, recommended_books)),
+            rec_books))
         if len(filtered_rec_books) > 0:
             recommended_books.append(filtered_rec_books[0])
         
