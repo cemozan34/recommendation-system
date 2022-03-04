@@ -7,17 +7,8 @@ from flask_cors import CORS
 from threading import Thread
 import jwt
 from time import time
-from os import environ
+import os
 from numpy import load
-
-load_data = environ.get("LOAD_DATA")
-cos_sim = None
-if load_data:
-    print('Loading data...')
-    filename = 'transform_result_reduced.npz'
-    loaded = load(filename)
-    cos_sim = loaded['arr_0']
-    print('Data is loaded!')
 
 app = Flask(__name__)
 
@@ -25,13 +16,13 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "johnistheking922@gmail.com"
-app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD")
+app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 mail = Mail(app)
 
-BOOK_RECOM_ENV = environ.get("BOOK_RECOM_ENV")
+BOOK_RECOM_ENV = os.environ.get("BOOK_RECOM_ENV")
 if BOOK_RECOM_ENV == 'prod':
     app.debug = False
-    app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("JAWSDB_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("JAWSDB_URL")
 else:
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/recomm_system'
@@ -353,10 +344,10 @@ def recommend_books(title='', id=None, num_of_recs=1):
     else:
         book = Book.query.filter_by(title=title).first()
         book_id = book.id
-    id_inbounds = book_id < 1500 #todo: either make 40k or remove
-    if book_id and num_of_recs > 0 and id_inbounds:
-        cos_sim_index = book_id
-        sim_scores = list(enumerate(cos_sim[cos_sim_index]))
+    if book_id and num_of_recs > 0:
+        filename = f"transform_result_{book_id}.npz"
+        row = load(os.path.abspath('./transform_results/' + filename))['arr_0']
+        sim_scores = list(enumerate(row))
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
         sim_scores = sim_scores[1:num_of_recs+1]
         book_ids = [i[0] for i in sim_scores]
