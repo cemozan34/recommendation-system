@@ -358,5 +358,15 @@ def recommend_books(title='', id=None, num_of_recs=1):
 def custom_message(message, status_code): 
     return make_response(jsonify(message), status_code)
 
+@app.errorhandler(404)
+def error404(error):
+    print(error)
+    return render_template('error.html', message='Page not found')
+
+@app.errorhandler(500)
+def error500(error):
+    print(error)
+    return render_template('error.html', message='Internal server error')
+
 if __name__ == '__main__':
     app.run()
