@@ -71,18 +71,20 @@ class User(db.Model):
 class Book(db.Model):
     __tablename__ = 'books'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(40), nullable=False)
-    author = db.Column(db.String(40), nullable=False)
-    publisher = db.Column(db.String(40), nullable=False)
-    maintopic = db.Column(db.String(40))
-    subtopics = db.Column(db.String(50))
+    title = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    publisher = db.Column(db.String(100), nullable=False)
+    maintopic = db.Column(db.String(100))
+    subtopics = db.Column(db.String(100))
+    score = db.Column(db.Integer)
 
-    def __init__(self, title, author, publisher, maintopic, subtopics):
+    def __init__(self, title, author, publisher, maintopic, subtopics, score):
         self.title = title
         self.author = author
         self.publisher = publisher
         self.maintopic = maintopic
         self.subtopics = subtopics
+        self.score = score
     
 class UserFavorites(db.Model):
     __tablename__ = 'user_favorites'
