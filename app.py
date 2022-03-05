@@ -361,6 +361,7 @@ def recommend_books(title='', id=None, num_of_recs=1):
 def get_books_starting_with(word):
     books = Book.query\
         .filter(Book.title.startswith(word))\
+        .order_by(Book.score.desc())\
         .limit(5)
     books = list(map(lambda b: b.title, books))
     return custom_message(books, 200)
