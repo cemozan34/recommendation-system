@@ -263,7 +263,7 @@ def favorites():
         if len(filtered_rec_books) > 0:
             recommended_books.append(filtered_rec_books[0])
         
-    return render_template('favorites.html', title='Favorites', fav_books=fav_books, recommended_books=recommended_books)
+    return render_template('favorites.html', title='Favorites', fav_books=fav_books, recommended_books=recommended_books, hide_chng_pswd=True)
 
 def send_email(subject, recipent, body, html):
     with app.app_context():
