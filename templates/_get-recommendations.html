@@ -1,8 +1,95 @@
 <div class="container text-center mt-4 mb-1">
-  <form id="get-recom-form" action="/recommendations_for" method="post">
+  <form autocomplete="off" id="get-recom-form" action="/recommendations_for" method="post">
     <div class="form-group">
-      <input required name="title" type="text" class="form-control col-sm-4 mx-auto" placeholder="Enter book name">
+      <div class="autocomplete col-md-8 col-lg-4 mx-auto p-0">
+        <input required name="title" type="text" id="get-recoms-input" class="form-control" placeholder="Enter book name">
+      </div>
       <button type="submit" class="btn btn-dark mt-2">Get Recommendations</button>
     </div>
   </form>
 </div>
+
+<script>
+  function autocomplete(inp) {
+    let currentFocus;
+
+    inp.addEventListener('input', async function(e) {
+      let a, b, i, val = this.value;
+      closeAllLists();
+      if (!val) return 
+      currentFocus = -1;
+
+      a = document.createElement('DIV');
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(a);
+      
+      try {
+        val = this.value;
+        const response = await fetch('books-starting-with/' + val);
+        const arr = await response.json();
+        for (let i = 0; i < arr.length; i++) {
+          b = document.createElement('div');
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</string>";
+          b.innerHTML += arr[i].substr(val.length);
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          b.addEventListener('click', function(e) {
+            inp.value = this.getElementsByTagName('input')[0].value;
+            closeAllLists();
+          })
+          a.appendChild(b);
+        }
+
+        a.focus();
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    
+    inp.addEventListener('keydown', function(e) {
+      let x = document.getElementById(this.id + 'autocomplete-list');
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        currentFocus++;
+        addActive(x);
+      } else if (e.keyCode == 38) {
+        currentFocus--;
+        addActive();
+      } else if (e.keyCode == 13) {
+        e.preventDefault();
+        if (currentFocus > -1) {
+          if (x) x[currentFocus].click();
+        }
+      }
+    })
+
+    function addActive(x) {
+      if (!x) return false;
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      x[currentFocus].classList.add('autocomplete-active');
+    }
+
+    function removeActive(x) {
+      for (let i = 0; i < x.length; i++) {
+        x[i].classList.remove('autocomplete-active');
+      }
+    }
+
+    function closeAllLists(elmnt) {
+      const x = document.getElementsByClassName('autocomplete-items');
+      for (let i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
+
+  autocomplete(document.getElementById("get-recoms-input"));
+</script>

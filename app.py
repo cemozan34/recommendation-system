@@ -355,6 +355,14 @@ def recommend_books(title='', id=None, num_of_recs=1):
         return books
     return []
 
+@app.route('/books-starting-with/<word>')
+def get_books_starting_with(word):
+    books = Book.query\
+        .filter(Book.title.startswith(word))\
+        .limit(5)
+    books = list(map(lambda b: b.title, books))
+    return custom_message(books, 200)
+
 def custom_message(message, status_code): 
     return make_response(jsonify(message), status_code)
 

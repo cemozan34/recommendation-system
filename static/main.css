@@ -31,3 +31,51 @@ p > img {
 /* .btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
   background-color: #8064A2 !important;
 } */
+
+/***********************/
+/* GET RECOMMENDATIONS */
+/***********************/
+
+.autocomplete {
+  position: relative;
+  /* display: inline-block; */
+}
+
+.autocomplete input[type=text] {
+  background-color: #f1f1f1;
+  color: #5c6268;
+}
+
+.autocomplete input[type=text]:focus {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 50;
+  top: 100%;
+  left: 0;
+  right: 0;
+  
+  width: 310px;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+  background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+  background-color: dodgerblue !important;
+  color: #fff;
+}
