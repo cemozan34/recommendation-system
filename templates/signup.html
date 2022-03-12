@@ -1,54 +1,14 @@
 {% extends 'base.html'%}
 
 {% block main %}
-<form action="/signup" method="post" class="mt-5 form w-50 border border-secondary p-4 mx-auto">
-  <h3 class="text-center">SIGNUP</h3>
-
-  <div class="messages text-center" style="width: 100%; height: 24px;">
-    {% if validation_msg %}
-      <span style="color: red;">{{ validation_msg }}</span>
-    {% endif %}
-  </div>
-
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input placeholder="Name" class="form-control" type="text" id="name" name="name" required>
-    <div class="invalid-feedback">
-      Name must be at least 2, max of 20 characters.
+<div style="height: 100vh;" class="sign-up-page container-fluid p-0 m-0">
+  <div class="row h-100 m-0">
+    <div class="col-12 col-lg-6 p-0">
+      {% include '_signup-form.html' %}
+    </div>
+    <div class="col-sm-6 d-none d-lg-block p-0" style="background-color: #2028eb;">
+      {% include '_signup-landing.html' %}
     </div>
   </div>
-
-  <div class="form-group">
-    <label for="surname">Surname</label>
-    <input placeholder="Surname" class="form-control" type="text" id="surname" name="surname">
-  </div>
-
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input placeholder="Username" class="form-control" type="text" id="username" name="username" required>
-    <div class="invalid-feedback">
-      Username must be at least 3, max of 20 characters.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input placeholder="Email" class="form-control" type="email" id="email" name="email" required>
-    <div class="invalid-feedback">
-      Please enter a valid email.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input minlength="5" maxlength="20" placeholder="Password" type="password" id="password" name="password" class="form-control" />
-    <div class="invalid-feedback">
-      Password is invalid. Update this validation message later.
-    </div>
-  </div>
-
-  <div class="text-center">
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </div>
-</form>
+</div>
 {% endblock %}

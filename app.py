@@ -125,7 +125,7 @@ def register():
     if 'logged_in' in session and session['logged_in'] == True:
         return redirect('/')
     if request.method == 'GET':
-        return render_template('signup.html', title='Signup')
+        return render_template('signup.html', title='Signup', hide_navbar=True)
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surname']
@@ -142,7 +142,7 @@ def register():
             session['username'] = data.username
             return redirect('/')
         else:
-            return render_template('signup.html', title='Signup', validation_msg=validation_result)
+            return render_template('signup.html', title='Signup', validation_msg=validation_result, hide_navbar=True)
 
 def validate_password(pswd, pswd_cnfrm=None):
     if (len(pswd) < 5):

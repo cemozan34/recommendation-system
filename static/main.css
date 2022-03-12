@@ -98,12 +98,15 @@ p > img {
   margin-bottom: 50px;
 }
 
-.generic-form-wrapper {
-  background-color: #f2f6ff;
+.flex-column-vertical-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.generic-form-wrapper {
+  background-color: #f2f6ff;
 }
 
 .generic-form {
@@ -117,7 +120,8 @@ p > img {
   border-radius: 8px;
 }
 
-.generic-form .form-group input {
+.generic-form .form-group input,
+.signup-wrapper .form-group input {
   border: 1.5px solid #f2f6ff;
   padding-top: 25px;
   padding-bottom: 25px;
@@ -137,12 +141,59 @@ p > img {
 }
 
 /***********************/
+/* SIGNUP */
+/***********************/
+.sign-up-have-acc {
+  margin-left: calc(17% + 3rem);
+  margin-right: auto;
+}
+
+.signup-wrapper {
+  width: 66%;
+}
+
+.signup-wrapper .form-group {
+  margin-bottom: 32px;
+}
+
+.signup-wrapper .form-group input{
+  height: 60px;
+}
+
+.sign-up-btn {
+  background-color: #2028eb;
+  height: 70px;
+  border-radius: 8px;
+}
+
+.sign-up-btn:hover {
+  background-color: #1d23c9;
+}
+
+/***********************/
 /* MEDIA QUERIES */
 /***********************/
 
+@media only screen and (max-width: 1400px) {
+  .signup-wrapper {
+    width: 80%;
+  }
+
+  .sign-up-have-acc {
+    margin-left: calc(10% + 3rem);
+  }
+}
 
 @media only screen and (max-width: 580px) {
   .generic-form {
     width: 100%;
+  }
+
+  .signup-wrapper {
+    width: 100%;
+  }
+
+  .sign-up-have-acc {
+    margin-left: 3rem;
   }
 }

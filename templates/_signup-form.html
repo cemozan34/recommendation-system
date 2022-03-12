@@ -1,0 +1,45 @@
+<div class="flex-column-vertical-center h-100">
+  <span class="sign-up-have-acc">Have an account? <a href="/login">Sign In</a></span>
+
+  <div class="signup-wrapper">
+    <form action="/signup" method="post" class="mt-5 form p-5">
+      <div class="text-left">
+        <h1 class="font-weight-bold">Welcome to BRS</h1>
+        <p class="mt-3" style="color: #8a9bb5;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur sed!</p>
+      </div>
+    
+      <div class="messages text-center" style="width: 100%; height: 24px;">
+        {% if validation_msg %}
+          <span class="error-text">{{ validation_msg }}</span>
+        {% endif %}
+      </div>
+    
+      <div class="form-group">
+        <!-- <label for="name">Name</label> -->
+        <input placeholder="Name" class="form-control" type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <!-- <label for="surname">Surname</label> -->
+        <input placeholder="Surname" class="form-control" type="text" id="surname" name="surname">
+      </div>
+    
+      <div class="form-group">
+        <!-- <label for="username">Username</label> -->
+        <input placeholder="Username" class="form-control" type="text" id="username" name="username" required>
+      </div>
+    
+      <div class="form-group">
+        <!-- <label for="email">Email</label> -->
+        <input placeholder="Email" class="form-control" type="email" id="email" name="email" required>
+      </div>
+    
+      <div class="form-group">
+        <!-- <label for="password">Password</label> -->
+        <input minlength="5" maxlength="20" placeholder="Password" type="password" id="password" name="password" class="form-control" />
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100 sign-up-btn mt-2">Create an account</button>
+    </form>
+  </div>
+</div>
