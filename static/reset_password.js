@@ -21,19 +21,12 @@ resetPswdForm.addEventListener('submit', async(e) => {
   switch (response.status) {
     case 400:
       msg.textContent = result;
-      msg.style.color = 'red';
       break;
     case 403:
-      msg.textContent = result;
-      msg.style.color = 'red';
-      resetPswdForm.style.display = 'none';
-      document.querySelector('.forgot-pswd-ref').style.display = 'block';
+      msg.innerHTML = "<span>Invalid or expired token. Please <a href='/forgotpassword'>get a new token</a>.";
       break;
     case 200:
       window.location.replace(window.location.origin + '/password_changed')
-      // msg.style.color = 'darkgreen';
-      // resetPswdForm.style.display = 'none';
-      // document.querySelector('.login-ref').style.display = 'block';
       break
     default:
       throw new Exception('Unexpected error');

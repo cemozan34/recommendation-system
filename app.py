@@ -104,7 +104,8 @@ def querry_starred_books(userid):
 @app.route('/<int:page>', methods=['GET'])
 def index(page):
     if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
-            return render_template('home.html', title='Book Recommendation System', books=[])
+            return redirect('/signup')
+            # return render_template('home.html', title='Book Recommendation System', books=[])
     page = page
     per_page = 10
     # books = Book.query.paginate(page,per_page,error_out=False)
@@ -199,7 +200,7 @@ def login():
         return redirect('/')
     login_msg = None
     if request.method == 'GET':
-        return render_template('login.html', title='Login')
+        return render_template('login.html', title='Signin', hide_navbar=True)
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -213,7 +214,7 @@ def login():
         else:
             login_msg = 'Incorrect email or password'
     
-    return render_template('login.html', login_msg=login_msg, title='Login')
+    return render_template('login.html', login_msg=login_msg, title='Signin', hide_navbar=True)
 
 @app.route('/logout')
 def logout():
@@ -282,7 +283,7 @@ def send_email(subject, recipent, body, html):
 @app.route('/forgotpassword', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'GET':
-        return render_template('forgot_password.html', title='Forgot Password')
+        return render_template('forgot_password.html', title='Forgot Password', hide_navbar=True)
     if request.method == 'POST':
         email = request.form['email']
         user = User.query.filter_by(email=email).first()
@@ -310,18 +311,20 @@ def reset_password(token):
         print('User is already logged in')
         print(session['logged_in'])
         return redirect('/')
+    print(request.method)
+    if request.method == 'GET':
+        return render_template('reset_password.html',token=token,title='Reset Password', hide_navbar=True)
     user = User.verify_reset_password_token(token)
     if not user:
         return custom_message('Invalid token. Please get a new reset token', 403)
-    print(request.method)
-    if request.method == 'GET':
-        return render_template('reset_password.html',token=token,title='Reset Password')
     else:
         content = request.json
         pswd = content['pswd']
         pswd_cnfrm = content['pswd-cnfrm']
         validated = validate_password(pswd, pswd_cnfrm)
         if validated == True:
+            user.password = pswd
+            db.session.commit()
             return custom_message('You password has been changed', 200)
         else:
             return custom_message(validated, 400)
