@@ -241,8 +241,9 @@ def toggle_fav(id):
     db.session.commit()
     return custom_message(msg, 200)
 
-@app.route('/favorites')
-def favorites():
+@app.route('/favorites/', defaults={"page": 1})
+@app.route('/favorites/<int:page>')
+def favorites(page):
     if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
         return redirect('/signup')
     user_id = session.get('userid')
@@ -253,15 +254,14 @@ def favorites():
             [(True, "True"),],
             else_="False"
         ).label("is_starred"))\
-        .all()
-
+        .paginate(page, 5, error_out=False)
     recommended_books = []
-    for fav_book in fav_books:
+    for fav_book in fav_books.items:
         rec_books = recommend_books(id=fav_book.id, num_of_recs=10)
         # remove the books that are already in the favorites or already recommended
         filtered_rec_books = list(filter(
             lambda rec_book: rec_book.title not in \
-                list(map(lambda x: x.title, fav_books)) + list(map(lambda x: x.title, recommended_books)),
+                list(map(lambda x: x.title, fav_books.items)) + list(map(lambda x: x.title, recommended_books)),
             rec_books))
         if len(filtered_rec_books) > 0:
             recommended_books.append(filtered_rec_books[0])

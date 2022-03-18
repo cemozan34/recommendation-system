@@ -1,9 +1,14 @@
 {% extends 'base.html'%}
 {% block main %}
   <h1 class="text-center mt-4">Favorite Books</h1>
-  {% with books=fav_books, book_class="book-table--azure" %}
+  {% with books=fav_books.items, book_class="book-table--azure" %}
       {% include "_book-table.html" %}
   {% endwith %}
+  <div class="mx-auto w-75 text-right mb-4 pagin">
+    {% with items=fav_books, path="/favorites/" %}
+      {% include "_pagination.html" %}
+    {% endwith %}
+  </div>
 
   <h1 class="text-center mt-4">Recommended Books</h1>
   {% if recommended_books %}

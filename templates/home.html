@@ -12,7 +12,7 @@
     {% endwith %}
 
 <div class="mx-auto w-75 text-right mb-0 mb-sm-4 mt-4 pagin">
-  {% with items=books %}
+  {% with items=books, path="/" %}
     {% include "_pagination.html" %}
   {% endwith %}
 </div>

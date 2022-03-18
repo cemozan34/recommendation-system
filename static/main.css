@@ -83,6 +83,7 @@ p > img {
   color: white;
   border-radius: 10px;
   background: #36AFEC;
+  margin-bottom: 10px;
   /* background: -moz-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
   /* FF3.6+ */
   /* background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #2D7CE7), color-stop(100%, #36AFEC)); */
