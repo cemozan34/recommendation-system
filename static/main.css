@@ -166,8 +166,8 @@ p > img {
 
 .autocomplete input[type=text]:focus {
   background-color: #ffffff;
-  border-color: #fc606d;
-  box-shadow: 0 0 0 .2rem #fcacb2;
+  /* border-color: #fc606d;
+  box-shadow: 0 0 0 .2rem #fcacb2; */
   color: #333;
 }
 

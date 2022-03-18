@@ -1,0 +1,27 @@
+<a href="/{{ items.prev_num }}"
+  class="btn btn-outline-dark 
+  {% if items.page == 1 %}disabled{% endif %}">
+    &laquo;
+</a>
+{% for page_num in items.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+  {% if page_num %}
+    {% if items.page == page_num %}
+        <a href="/{{ page_num }}"
+          class="btn btn-dark">
+            {{ page_num }}
+        </a>
+    {% else %}
+        <a href="/{{ page_num }}"
+          class="btn btn-outline-dark">
+            {{ page_num }}
+        </a>
+    {% endif %}
+  {% else %}
+        ...
+  {% endif %}
+{% endfor %}
+<a href="/{{ items.next_num }}"
+  class="btn btn-outline-dark 
+  {% if items.page == items.pages %}disabled{% endif %}">
+    &raquo;
+</a>

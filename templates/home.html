@@ -11,34 +11,10 @@
       {% include "_book-table.html" %}
     {% endwith %}
 
-<div class="text-center mb-0 mb-sm-4 mt-4">
-  <a href="/{{ books.prev_num }}"
-    class="btn btn-outline-dark 
-    {% if books.page == 1 %}disabled{% endif %}">
-      &laquo;
-  </a>
-  {% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-    {% if page_num %}
-      {% if books.page == page_num %}
-          <a href="/{{ page_num }}"
-            class="btn btn-dark">
-              {{ page_num }}
-          </a>
-      {% else %}
-          <a href="/{{ page_num }}"
-            class="btn btn-outline-dark">
-              {{ page_num }}
-          </a>
-      {% endif %}
-    {% else %}
-          ...
-    {% endif %}
-  {% endfor %}
-  <a href="/{{ books.next_num }}"
-    class="btn btn-outline-dark 
-    {% if books.page == books.pages %}disabled{% endif %}">
-      &raquo;
-  </a>
+<div class="mx-auto w-75 text-right mb-0 mb-sm-4 mt-4 pagin">
+  {% with items=books %}
+    {% include "_pagination.html" %}
+  {% endwith %}
 </div>
 
     {% include '_change-password.html' %}
