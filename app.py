@@ -147,8 +147,8 @@ def register():
 def validate_password(pswd, pswd_cnfrm=None):
     if (len(pswd) < 5):
         return 'Password must be at least 5 characters'
-    elif (len(pswd) > 20):
-        return 'Passwrod must be max of 20 characters'
+    elif (len(pswd) > 100):
+        return 'Passwrod must be max of 100 characters'
     elif (pswd_cnfrm != None and pswd != pswd_cnfrm):
         return 'Passwords do not match'
     else:
