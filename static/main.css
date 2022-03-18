@@ -37,9 +37,118 @@ p > img {
   max-width: 100%;
 }
 
+.favorites-btn {
+  background: #FF616E;
+  color: white;
+  transition: .2s all;
+}
+
+.favorites-btn:hover {
+  background: #ff7e88;
+  color: white;
+}
+
 /* .btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
   background-color: #8064A2 !important;
 } */
+
+/***********************/
+/* TABLE */
+/***********************/
+
+.book-table--blue {
+  color: white;
+  border-radius: 10px;
+  background: #4087ea;
+  /* background: -moz-radial-gradient(center, ellipse cover, #533ce1 0%, #4087ea 100%); */
+  /* FF3.6+ */
+  /* background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #533ce1), color-stop(100%, #4087ea)); */
+  /* Chrome,Safari4+ */
+  /* background: -webkit-radial-gradient(center, ellipse cover, #533ce1 0%, #4087ea 100%); */
+  /* Chrome10+,Safari5.1+ */
+  /* background: -o-radial-gradient(center, ellipse cover, #533ce1 0%, #4087ea 100%); */
+  /* Opera 12+ */
+  /* background: -ms-radial-gradient(center, ellipse cover, #533ce1 0%, #4087ea 100%); */
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #533ce1 0%, #4087ea 100%);
+  /* W3C */
+  background-size: 250% 250%;
+}
+
+.book-table--blue tbody tr:nth-child(odd) {
+  background-color: #608bec;
+}
+
+.book-table--azure {
+  color: white;
+  border-radius: 10px;
+  background: #36AFEC;
+  /* background: -moz-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* FF3.6+ */
+  /* background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #2D7CE7), color-stop(100%, #36AFEC)); */
+  /* Chrome,Safari4+ */
+  /* background: -webkit-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* Chrome10+,Safari5.1+ */
+  /* background: -o-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* Opera 12+ */
+  /* background: -ms-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #2D7CE7 0%, #36AFEC 100%);
+  /* W3C */
+  background-size: 250% 250%;
+}
+
+.book-table--azure tbody tr:nth-child(odd) {
+  background-color: #51aaed;
+}
+
+.book-table--orange {
+  color: #423E31;
+  border-radius: 10px;
+  background: #ffb33b;
+  /* background: -moz-radial-gradient(center, ellipse cover, #ff5221 0%, #ffb33b 100%); */
+  /* FF3.6+ */
+  /* background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #ff5221), color-stop(100%, #ffb33b)); */
+  /* Chrome,Safari4+ */
+  /* background: -webkit-radial-gradient(center, ellipse cover, #ff5221 0%, #ffb33b 100%); */
+  /* Chrome10+,Safari5.1+ */
+  /* background: -o-radial-gradient(center, ellipse cover, #ff5221 0%, #ffb33b 100%); */
+  /* Opera 12+ */
+  /* background: -ms-radial-gradient(center, ellipse cover, #ff5221 0%, #ffb33b 100%); */
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #ff5221 0%, #ffb33b 100%);
+  /* W3C */
+  background-size: 250% 250%;
+}
+
+.book-table--orange tbody tr:nth-child(odd) {
+  background-color: #ffad54;
+}
+
+.book-table--violet {
+  color: white;
+  border-radius: 10px;
+  /* background: #56ab91; */
+  background: #8367c7;
+  /* background: -moz-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* FF3.6+ */
+  /* background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #2D7CE7), color-stop(100%, #36AFEC)); */
+  /* Chrome,Safari4+ */
+  /* background: -webkit-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* Chrome10+,Safari5.1+ */
+  /* background: -o-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* Opera 12+ */
+  /* background: -ms-radial-gradient(center, ellipse cover, #2D7CE7 0%, #36AFEC 100%); */
+  /* IE10+ */
+  /* background: radial-gradient(ellipse at center, #025858 0%, #56ab91 100%); */
+  background: radial-gradient(ellipse at center, #5603ad 0%, #8367c7 100%);
+  /* W3C */
+  background-size: 250% 250%;
+}
+
+.book-table--violet tbody tr:nth-child(odd) {
+  background-color: #8367c7;
+}
 
 /***********************/
 /* GET RECOMMENDATIONS */
@@ -57,6 +166,8 @@ p > img {
 
 .autocomplete input[type=text]:focus {
   background-color: #ffffff;
+  border-color: #fc606d;
+  box-shadow: 0 0 0 .2rem #fcacb2;
   color: #333;
 }
 

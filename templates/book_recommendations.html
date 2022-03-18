@@ -5,7 +5,7 @@
   <div class="container text-center mt-4 mb-3">
     <h2>Recommended books for <span class="font-weight-bold">{{ book_title }}</span> are:</h2>
   </div>
-  {% with books=recommended_books %}
+  {% with books=recommended_books, book_class="book-table--orange" %}
     {% include "_book-table.html" %}
   {% endwith %}
 {% else %}
@@ -13,4 +13,7 @@
     <h1>Couldn't find the book with title <span class="font-weight-bold">{{ book_title }}</span></h1>
   </div>
 {% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="../static/toggle_fav.js"></script>
 {% endblock %}

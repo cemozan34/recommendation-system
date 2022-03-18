@@ -336,6 +336,7 @@ def password_changed():
 @app.route('/recommendations_for', methods=['POST'])
 def get_recommendations_for():
     title = request.form['title']
+    print('title:', title)
     book = Book.query.filter_by(title=title).first()
     if book:
         recommended_books = recommend_books(title=title, num_of_recs=10)

@@ -1,11 +1,11 @@
-<table class="mx-auto w-75 table table-striped table-bordered">
+<table class="mx-auto w-75 table {{ book_class }} table-borderless">
   <thead>
-    <tr style="background-color: #6b7ae0; color: white">
+    <tr>
       <th scope="col">Title</th>
       <th scope="col">Author</th>
       <th scope="col">Publisher</th>
       <th scope="col">Main Topic</th>
-      <th scope="col">Add to Favorites</th>
+      <th scope="col" class="text-center">Add to Favorites</th>
     </tr>
   </thead>
   <tbody>
@@ -15,7 +15,7 @@
       <td>{{ book.author }}</td>
       <td>{{ book.publisher }}</td>
       <td>{{ book.maintopic }}</td>
-      <td>
+      <td class="text-center">
         <a class="toggle-fav-btn" href="" data-href="/fav/{{ book.id }}" role="button" aria-label="Toggle favorite">
           <!-- <svg class="heart {% if book['is_starred'] == 'True' %}isFilled{% endif %}" style="width: 25px; height: 25px">
             <use xlink:href="../static/heart.svg#Capa_1"></use>
