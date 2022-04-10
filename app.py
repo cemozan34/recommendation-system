@@ -85,7 +85,28 @@ class Book(db.Model):
         self.maintopic = maintopic
         self.subtopics = subtopics
         self.score = score
-    
+
+class Movie(db.Model):
+    __tablename__ = 'movies'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    genre = db.Column(db.String(100), nullable=False)
+    year = db.Column(db.String(5), nullable=False)
+    director = db.Column(db.String(100), nullable=False)
+    writer = db.Column(db.String(100), nullable=False)
+    star = db.Column(db.String(100), nullable=False)
+    country = db.Column(db.String(100), nullable=False)
+    company = db.Column(db.String(100), nullable=False)
+    def __init__(self, name, genre, year, director, writer, star, country, company):
+        self.title = name
+        self.genre = genre
+        self.year = year
+        self.director = director
+        self.writer = writer
+        self.star = star
+        self.country = country
+        self.company = company
+
 class UserFavorites(db.Model):
     __tablename__ = 'user_favorites'
     id = db.Column(db.Integer, primary_key=True)
@@ -106,6 +127,7 @@ def index(page):
     if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
             return redirect('/signup')
             # return render_template('home.html', title='Book Recommendation System', books=[])
+    return redirect('/signup')
     page = page
     per_page = 10
     # books = Book.query.paginate(page,per_page,error_out=False)
