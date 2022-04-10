@@ -247,6 +247,14 @@ def favorites(page):
     if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
         return redirect('/signup')
     user_id = session.get('userid')
+
+    fav_titles = list(map(lambda x: x[0], UserFavorites.query\
+        .filter_by(user_id=user_id)\
+        .join(Book, UserFavorites.book_id==Book.id)\
+        .with_entities(Book.title)\
+        .all()))
+    print(fav_titles)
+
     fav_books = UserFavorites.query\
         .filter_by(user_id=user_id)\
         .join(Book, UserFavorites.book_id==Book.id)\
@@ -255,13 +263,14 @@ def favorites(page):
             else_="False"
         ).label("is_starred"))\
         .paginate(page, 5, error_out=False)
+
     recommended_books = []
     for fav_book in fav_books.items:
         rec_books = recommend_books(id=fav_book.id, num_of_recs=10)
         # remove the books that are already in the favorites or already recommended
         filtered_rec_books = list(filter(
             lambda rec_book: rec_book.title not in \
-                list(map(lambda x: x.title, fav_books.items)) + list(map(lambda x: x.title, recommended_books)),
+                fav_titles + list(map(lambda x: x.title, recommended_books)),
             rec_books))
         if len(filtered_rec_books) > 0:
             recommended_books.append(filtered_rec_books[0])
