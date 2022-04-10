@@ -89,7 +89,7 @@ class Book(db.Model):
 class Movie(db.Model):
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     genre = db.Column(db.String(100), nullable=False)
     year = db.Column(db.String(5), nullable=False)
     director = db.Column(db.String(100), nullable=False)
@@ -98,7 +98,7 @@ class Movie(db.Model):
     country = db.Column(db.String(100), nullable=False)
     company = db.Column(db.String(100), nullable=False)
     def __init__(self, name, genre, year, director, writer, star, country, company):
-        self.title = name
+        self.name = name
         self.genre = genre
         self.year = year
         self.director = director
