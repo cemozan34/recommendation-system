@@ -89,7 +89,7 @@ class Book(db.Model):
 class Movie(db.Model):
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
     genre = db.Column(db.String(100), nullable=False)
     year = db.Column(db.String(5), nullable=False)
     director = db.Column(db.String(100), nullable=False)
@@ -97,8 +97,8 @@ class Movie(db.Model):
     star = db.Column(db.String(100), nullable=False)
     country = db.Column(db.String(100), nullable=False)
     company = db.Column(db.String(100), nullable=False)
-    def __init__(self, name, genre, year, director, writer, star, country, company):
-        self.name = name
+    def __init__(self, title, genre, year, director, writer, star, country, company):
+        self.title = title
         self.genre = genre
         self.year = year
         self.director = director
@@ -127,7 +127,6 @@ def index(page):
     if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
             return redirect('/signup')
             # return render_template('home.html', title='Book Recommendation System', books=[])
-    return redirect('/signup')
     page = page
     per_page = 10
     # books = Book.query.paginate(page,per_page,error_out=False)
