@@ -370,9 +370,9 @@ def get_recommendations_for():
     book = Book.query.filter_by(title=title).first()
     if book:
         recommended_books = recommend_books(title=title, num_of_recs=10)
-        return render_template('book_recommendations.html', recommended_books=recommended_books, book_title=title)
+        return render_template('book_recommendations.html', recommended_books=recommended_books, book_title=title, hide_chng_pswd=True)
     else:
-        return render_template('book_recommendations.html', book_title=title)
+        return render_template('book_recommendations.html', book_title=title, hide_chng_pswd=True)
 
 def recommend_books(title='', id=None, num_of_recs=1):
     if (id != None):
@@ -399,6 +399,34 @@ def get_books_starting_with(word):
         .limit(5)
     books = list(map(lambda b: b.title, books))
     return custom_message(books, 200)
+
+@app.route('/movies', methods=['GET'], defaults={"page": 1})
+@app.route('/movies/<int:page>', methods=['GET'])
+def get_movies(page):
+    if 'logged_in' not in session or ('logged_in' in session and session['logged_in'] != True):
+        return redirect('/signup')
+    movies = Movie.query.paginate(page,5,error_out=False)
+    recommendations = []
+    for movie in movies.items:
+        cur_recomms = get_movie_recommendations(movie.id)
+        print(cur_recomms)
+        recommendations.append(cur_recomms)
+    return render_template('movies.html', movies=movies, recoms=recommendations, hide_chng_pswd=True)
+
+def get_movie_recommendations(id=None, num_of_recs=5):
+    if (id is None): return []
+    movie = Movie.query.filter_by(id=id).first()
+    movie_id = movie.id if movie else None
+    if movie_id and num_of_recs > 0:
+        filename = f"transform_result_{movie_id}.npz"
+        row = load(os.path.abspath('./transform_results/movies/' + filename))['arr_0']
+        sim_scores = list(enumerate(row))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sim_scores[1:num_of_recs+1]
+        movie_ids = [i[0] for i in sim_scores]
+        movies = Movie.query.filter(Movie.id.in_(movie_ids)).all()
+        return movies
+    return []
 
 def custom_message(message, status_code): 
     return make_response(jsonify(message), status_code)
