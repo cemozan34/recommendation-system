@@ -89,22 +89,22 @@ class Book(db.Model):
 class Movie(db.Model):
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    genre = db.Column(db.String(100), nullable=False)
-    year = db.Column(db.String(5), nullable=False)
-    director = db.Column(db.String(100), nullable=False)
-    writer = db.Column(db.String(100), nullable=False)
-    star = db.Column(db.String(100), nullable=False)
-    country = db.Column(db.String(100), nullable=False)
-    company = db.Column(db.String(100), nullable=False)
-    def __init__(self, title, genre, year, director, writer, star, country, company):
+    title = db.Column(db.String(300), nullable=False)
+    year = db.Column(db.String(10), nullable=False)
+    genre = db.Column(db.String(300), nullable=False)
+    director = db.Column(db.String(300), nullable=False)
+    writer = db.Column(db.String(300), nullable=False)
+    actors = db.Column(db.String(300), nullable=False)
+    rating = db.Column(db.String(100), nullable=False)
+    company = db.Column(db.String(300), nullable=False)
+    def __init__(self, title, genre, year, director, writer, actors, rating, company):
         self.title = title
-        self.genre = genre
         self.year = year
+        self.genre = genre
         self.director = director
         self.writer = writer
-        self.star = star
-        self.country = country
+        self.actors = actors
+        self.rating = rating
         self.company = company
 
 class UserFavorites(db.Model):

@@ -6,14 +6,14 @@
     <thead>
       <tr>
         <th scope="col">Title</th>
-        <th scope="col">Genre</th>
         <th scope="col">Year</th>
+        <th scope="col">Genre</th>
         <th scope="col">Director</th>
         <th scope="col">Writer</th>
-        <th scope="col">Star</th>
-        <th scope="col">Country</th>
+        <th scope="col">Actors</th>
+        <th scope="col">Rating</th>
         <th scope="col">Company</th>
-        <th scope="col">:)</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -21,12 +21,12 @@
       {% set outer_loop = loop %}
       <tr class="{{ 'darker-purple-bckgrnd' if ((outer_loop.index0|int) % 2) == 1 }}">
           <th scope="row">{{ movie.title }}</th>
-          <td>{{ movie.genre }}</td>
           <td>{{ movie.year }}</td>
+          <td>{{ movie.genre }}</td>
           <td>{{ movie.director }}</td>
           <td>{{ movie.writer }}</td>
-          <td>{{ movie.star }}</td>
-          <td>{{ movie.country }}</td>
+          <td>{{ movie.actors }}</td>
+          <td>{{ movie.rating }}</td>
           <td>{{ movie.company }}</td>
           <td>
             <button
@@ -44,12 +44,12 @@
       {% for recom in recoms[outer_loop.index0] %}
       <tr id="collapse{{ outer_loop.index0 }}" class="collapse out book-table--orange">
           <th scope="row">{{ recom.title }}</th>
-          <td>{{ recom.genre }}</td>
           <td>{{ recom.year }}</td>
+          <td>{{ recom.genre }}</td>
           <td>{{ recom.director }}</td>
           <td>{{ recom.writer }}</td>
-          <td>{{ recom.star }}</td>
-          <td>{{ recom.country }}</td>
+          <td>{{ recom.actors }}</td>
+          <td>{{ recom.rating }}</td>
           <td>{{ recom.company }}</td>
           <td></td>
         </tr>
