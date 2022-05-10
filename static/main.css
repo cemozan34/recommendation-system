@@ -23,6 +23,51 @@ body {
   z-index: unset !important;
 }
 
+/***********************/
+/* SIGNUP BRANDING */
+/***********************/
+.signup-branding {
+  background: #396afc;
+  background: -webkit-linear-gradient(to right, #2948ff, #396afc);
+  background: linear-gradient(to right, #2948ff, #396afc);
+  position: relative;
+}
+
+.signup-branding .branding-title {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-40%);
+  padding: 5rem;
+  width: 100%;
+}
+
+.signup-branding .branding-footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 2rem;
+}
+
+.signup-branding .branding-title h1 {
+  color: white;
+  font-size: 4rem;
+  margin: 0;
+}
+
+.signup-branding .branding-title h1::first-letter {
+  color: #FFCC2E;
+}
+
+.signup-branding .branding-footer h3 {
+  font-size: 1.4rem;
+  color: #ffcb2ee0;
+  /* text-align: right; */
+}
+
+/***********************/
+/***********************/
+/***********************/
+
 /*pos feedback*/
 .full-page {
   top: 0;
