@@ -339,14 +339,14 @@ p > img {
 }
 
 .sign-up-btn {
-  background-color: #2028eb;
+  /* background-color: #2028eb; */
   height: 70px;
   border-radius: 8px;
 }
 
-.sign-up-btn:hover {
+/* .sign-up-btn:hover {
   background-color: #1d23c9;
-}
+} */
 
 /***********************/
 /* MEDIA QUERIES */
