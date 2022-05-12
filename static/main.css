@@ -368,13 +368,45 @@ p > img {
 /* MEDIA QUERIES */
 /***********************/
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1800px) {
+  .signup-branding .branding-title {
+    padding: 5rem 4rem;
+  }
+}
+
+@media only screen and (max-width: 1700px) {
+  .signup-branding .branding-title {
+    padding: 5rem 4rem;
+  }
+
+  .signup-branding .branding-title h1 {
+    font-size: 3.5rem;
+  }
+}
+
+@media only screen and (max-width: 1540px) {
   .signup-wrapper {
     width: 80%;
   }
 
   .sign-up-have-acc {
     margin-left: calc(10% + 3rem);
+  }
+
+  .signup-branding .branding-title h1 {
+    font-size: 3rem;
+  }
+}
+
+@media only screen and (max-width: 1350px) {
+  .signup-branding .branding-title h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .signup-branding .branding-title h1 {
+    font-size: 2.2rem;
   }
 }
 
