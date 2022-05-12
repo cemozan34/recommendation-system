@@ -286,10 +286,10 @@ p > img {
 /***********************/
 
 .logo-inpage {
-  width: 40px;
-  height: 25px;
-  background-color: #4e94ff;
-  margin-bottom: 50px;
+  width: 120px;
+  /* background-color: #4e94ff; */
+  margin-bottom: 20px;
+  filter: invert(40%) sepia(63%) saturate(2783%) hue-rotate(202deg) brightness(99%) contrast(104%);
 }
 
 .flex-column-vertical-center {
