@@ -35,10 +35,12 @@ body {
 
 .signup-branding .branding-title {
   position: absolute;
-  top: 40%;
-  transform: translateY(-40%);
+  top: 80%;
+  transform: translateY(-80%);
   padding: 5rem;
   width: 100%;
+  z-index: 6;
+  user-select: none;
 }
 
 .signup-branding .branding-footer {
@@ -62,6 +64,20 @@ body {
   font-size: 1.4rem;
   color: #ffcb2ee0;
   /* text-align: right; */
+}
+
+.signup-branding .app-logo {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -18%);
+}
+
+.signup-branding .app-logo img {
+  width: 24rem;
+  filter: invert(1);
+  pointer-events: none;
+  user-select: none;
 }
 
 /***********************/
