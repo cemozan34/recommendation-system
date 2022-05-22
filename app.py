@@ -45,7 +45,7 @@ class User(db.Model):
     name = db.Column(db.String(20), nullable=False)
     surname = db.Column(db.String(20))
     username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
     def get_reset_token(self, expires_in=600):
